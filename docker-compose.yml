@@ -8,7 +8,8 @@ services:
         ports: 
             - "9001"
         volumes:
-            - "C:/L/DockerHTML/UI/conf.d:/etc/nginx/conf.d:rw"
+            - "C:/L/DockerHTML/UI/conf.d:/etc/nginx/conf.d:ro"
+            - "C:/L/DockerHTML/UI/html:/mydir"
         networks:
             - nginx-network
 
@@ -20,21 +21,22 @@ services:
         ports: 
             - "9002"
         volumes:
-            - "C:/L/DockerHTML/UI2/conf.d:/etc/nginx/conf.d:rw"
+            - "C:/L/DockerHTML/UI2/conf.d:/etc/nginx/conf.d:ro"
+            - "C:/L/DockerHTML/UI2/html:/mydir"
         depends_on:
             - nginxui1
         networks:
             - nginx-network
 
     proxyserver:
-        image: nginxproxyimage:latest
+        image: nginxproxyimg:latest
         container_name: nginxproxyservercontainer
         build: 
             context: ./ReverseProxy
         ports: 
             - "8080:9003"
         volumes:
-            - "C:/L/DockerHTML/ReverseProxy:/etc/nginx/conf.d:rw" 
+            - "C:/L/DockerHTML/ReverseProxy:/etc/nginx/conf.d:ro"
         depends_on:
             - nginxui2
         networks:
