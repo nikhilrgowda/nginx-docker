@@ -1,30 +1,30 @@
 services:
-    nginxui1:
+    nginxserver1:
         image: nginximg1:latest
         container_name: nginxcontainer1
         build: 
-            context: ./UI/
+            context: ./UI1
             dockerfile: Dockerfile
         ports: 
             - "9001"
         volumes:
-            - "C:/L/DockerHTML/UI/conf.d:/etc/nginx/conf.d:ro"
-            - "C:/L/DockerHTML/UI/html:/mydir"
+            - "C:/L/DockerHTML/UI1/conf.d:/etc/nginx/conf.d:ro"
+            - "C:/L/DockerHTML/UI1/html:/proxyit1/ui1"
         networks:
             - nginx-network
 
-    nginxui2:
+    nginxserver2:
         image: nginximg2:latest
         container_name: nginxcontainer2
         build: 
-            context: ./UI2/
+            context: ./UI2
         ports: 
             - "9002"
         volumes:
             - "C:/L/DockerHTML/UI2/conf.d:/etc/nginx/conf.d:ro"
-            - "C:/L/DockerHTML/UI2/html:/mydir"
+            - "C:/L/DockerHTML/UI2/html:/proxyit2/ui2"
         depends_on:
-            - nginxui1
+            - nginxserver1
         networks:
             - nginx-network
 
@@ -38,7 +38,7 @@ services:
         volumes:
             - "C:/L/DockerHTML/ReverseProxy:/etc/nginx/conf.d:ro"
         depends_on:
-            - nginxui2
+            - nginxserver2
         networks:
             - nginx-network
 
